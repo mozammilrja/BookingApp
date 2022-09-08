@@ -19,6 +19,8 @@ const useFetch = (url) => {
     };
     fetchData();
   }, [url]);
+  
+  // url live searh paste in[]
 
   const reFetch = async () => {
     setLoading(true);

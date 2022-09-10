@@ -4,7 +4,8 @@ import { useContext } from 'react';
 import { AuthContext } from "../../context/AuthContext";
 
 const Navbar = () => {
-  const { user } = useContext (AuthContext)
+  const { user } = useContext(AuthContext)
+
 
   return (
     <div className='navbar'>
@@ -14,7 +15,7 @@ const Navbar = () => {
         </Link>
         {user ? (
           <div>
-            user.username
+            {user.username}
             <Link to='/register'>
               <button className='navButton'>Logout</button>
             </Link>

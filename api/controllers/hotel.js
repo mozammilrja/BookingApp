@@ -3,15 +3,16 @@ import Room from "../models/Room.js";
 
 export const createHotel = async (req, res, next) => {
   const newHotel = new Hotel(req.body);
+
   try {
-    const saveHotel = await newHotel.save();
-    res.status(200).json(saveHotel);
+    const savedHotel = await newHotel.save();
+    res.status(200).json(savedHotel);
   } catch (err) {
     next(err);
   }
 };
 export const updateHotel = async (req, res, next) => {
- try {
+  try {
     const updatedHotel = await Hotel.findByIdAndUpdate(
       req.params.id,
       { $set: req.body },
@@ -25,9 +26,9 @@ export const updateHotel = async (req, res, next) => {
 export const deleteHotel = async (req, res, next) => {
   try {
     await Hotel.findByIdAndDelete(req.params.id);
-    res.status(200).json("Hotesl has been deleted.");
+    res.status(200).json("Hotel has been deleted.");
   } catch (err) {
-    console.log(500).json(err);
+    next(err);
   }
 };
 export const getHotel = async (req, res, next) => {
@@ -38,35 +39,30 @@ export const getHotel = async (req, res, next) => {
     next(err);
   }
 };
-
-// ------------------error
 export const getHotels = async (req, res, next) => {
   const { min, max, ...others } = req.query;
   try {
     const hotels = await Hotel.find({
       ...others,
-      cheapestPrice: { $gt: min | 1, $lt: max || 10099 },
+      cheapestPrice: { $gt: min | 1, $lt: max || 999 },
     }).limit(req.query.limit);
     res.status(200).json(hotels);
   } catch (err) {
     next(err);
   }
 };
-
-// something error in city
-
 export const countByCity = async (req, res, next) => {
-   const cities = req.query.cities.split(",");
-   try {
-     const list = await Promise.all(
-       cities.map((city) => {
-         return Hotel.countDocuments({ city: city });
-       })
-     );
-     res.status(200).json(list);
-   } catch (err) {
-     next(err);
-   }
+  const cities = req.query.cities.split(",");
+  try {
+    const list = await Promise.all(
+      cities.map((city) => {
+        return Hotel.countDocuments({ city: city });
+      })
+    );
+    res.status(200).json(list);
+  } catch (err) {
+    next(err);
+  }
 };
 export const countByType = async (req, res, next) => {
   try {

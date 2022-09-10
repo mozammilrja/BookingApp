@@ -47,6 +47,7 @@ const Header = ({ type }) => {
 
   const { dispatch } = useContext(SearchContext)
   const { user } = useContext(AuthContext);
+  
   const handleSearch = () => {
     dispatch({ type: "NEW_SEARCH", payload: { destination, dates, options } });
     navigate("/hotels", { state: { destination, dates, options } });
@@ -57,8 +58,7 @@ const Header = ({ type }) => {
       <div
         className={
           type === "list" ? "headerContainer listMode" : "headerContainer"
-        }
-      >
+        }>
         <div className="headerList">
           <div className="headerListItem active">
             <FontAwesomeIcon icon={faBed} />
